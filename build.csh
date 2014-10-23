@@ -46,6 +46,7 @@ setenv S2EXTRAINC "${S2EXTRAINC} -fopenmp -I/opt/local/include"
 setenv S2EXTRALIB "${S2EXTRALIB} -fopenmp -lz -lpng"
 
 clbuild.csh xrw libxrw.c
+#clbuild.csh obj libobj.c
 
 cbuild.csh objrange
 cbuild.csh ushortraw2xrw
