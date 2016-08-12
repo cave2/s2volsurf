@@ -48,6 +48,7 @@ setenv S2EXTRALIB "${S2EXTRALIB} -fopenmp -lz -lpng"
 clbuild.csh xrw libxrw.c
 #clbuild.csh obj libobj.c
 
+cbuild.csh makexrw
 cbuild.csh objrange
 cbuild.csh ushortraw2xrw
 cbuild.csh 3dcheckerboard2xrw
@@ -77,7 +78,7 @@ setenv S2EXTRALIB "${S2EXTRALIB} -L/opt/local/lib"
 
 cbuild.csh xrw2pngmos
 
-setenv S2EXTRAINC "${S2EXTRAINC} -I/usr/local/niftilib/2.0.0/include -I/opt/local/include/nifti"
+setenv S2EXTRAINC "${S2EXTRAINC} -I/usr/local/niftilib/2.0.0/include/nifti -I/opt/local/include/nifti"
 setenv S2EXTRALIB "${S2EXTRALIB} -L/usr/local/niftilib/2.0.0/lib -lniftiio -lznz"
 cbuild.csh nifti2xrw
 
