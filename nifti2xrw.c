@@ -105,7 +105,7 @@ int main(int argc, char *argv[]) {
     fprintf(stderr, "nifti image dimensions a bit smallish\n");
     exit(-1);
   }
-  if (nim->datatype != 2 && nim->datatype != 8 && nim->datatype != 16 && nim->datatype != 4 && nim->datatype != 512) {
+  if (nim->datatype != 2 && nim->datatype != 8 && nim->datatype != 16 && nim->datatype != 4 && nim->datatype != 512 && nim->datatype != 64) {
     fprintf(stderr, "unsupported data type\n");
     exit(-1);
   }
@@ -189,6 +189,7 @@ int main(int argc, char *argv[]) {
 	unsigned short *deref_us;
 	unsigned char *deref_uc;
         float *deref;
+	double *deref64;
 	for (ax = 0; ax < stride[0]; ax++) {
           for (ay = 0; ay < stride[1]; ay++) {
             for (az = 0; az < stride[2]; az++) {
@@ -212,6 +213,10 @@ int main(int argc, char *argv[]) {
 	      case 16: // float
 		deref = nim->data;
 		sum += (float)(deref[(ik+az)*w*h + (ij+ay)*w + (ii+ax)]); /* / 255.0; */
+		break;
+	      case 64: // float64
+		deref64 = nim->data;
+		sum += (double)(deref64[(ik+az)*w*h + (ij+ay)*w + (ii+ax)]);
 		break;
 		
 	      }

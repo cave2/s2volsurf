@@ -787,7 +787,7 @@ VOL_STRUCT *loadUshortRaw(char *ifname, int nx, int ny, int nz) {
     // copy this frame in to this slice
     vol->data[i] = (float **)malloc(ny * sizeof(float *));
     for (j = 0; j < ny; j++) {
-      vol->data[i][j] = (float *)malloc(nz * sizeof(float *));
+      vol->data[i][j] = (float *)malloc(nz * sizeof(float));
       for (k = 0; k < nz; k++) {
 	vol->data[i][j][nz-k-1] = (float)inu[i * ny * nz + j * nz + k];
       }
