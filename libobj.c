@@ -65,6 +65,7 @@ void calcObjMinMaxMean(OBJ_STRUCT *obj);
 void translateObj(OBJ_STRUCT *obj, XYZ vec);
 void transformObj(OBJ_STRUCT *obj, float *m); // m[4c,3r] matrix
 void drawObj(OBJ_STRUCT *obj); //, COLOUR c);
+void drawWireObj(OBJ_STRUCT *obj);
 void drawObjWgts(OBJ_STRUCT *obj, OBJ_WGT_STRUCT *wgt, int wgted_vx_only,
 		 int solid_col_idx);
 void saveWgtedObj(OBJ_STRUCT *obj, OBJ_STRUCT *obj_norms, OBJ_WGT_STRUCT *wgt, char *fname);
@@ -617,6 +618,24 @@ void drawObj(OBJ_STRUCT *obj) { // , COLOUR c) {
   pushVRMLname("ANON");
 }
 
+void drawWireObj(OBJ_STRUCT *obj) {
+  int i, j;
+  XYZ P[3];
+  
+  pushVRMLname(obj->label);
+  float width = s2qlw();
+  for (i = 0; i < obj->nfacets; i++) {
+    for (j = 0; j < 3; j++) {
+      P[j] = obj->verts[obj->facets[i*3+j]];
+    }
+    ns2vthline(P[0], P[1], obj->col, width);
+    ns2vthline(P[1], P[2], obj->col, width);
+    ns2vthline(P[2], P[0], obj->col, width);
+  }
+
+  pushVRMLname("ANON");
+
+}
 
 void drawObjWgts(OBJ_STRUCT *obj, OBJ_WGT_STRUCT *wgt, int wgted_vx_only, 
 		 int solid_col_idx) {
