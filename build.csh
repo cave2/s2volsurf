@@ -53,6 +53,7 @@ cbuild.csh objrange
 cbuild.csh ushortraw2xrw
 cbuild.csh 3dcheckerboard2xrw
 cbuild.csh tgastack2xrw
+cbuild.csh xrw2tgastack
 cbuild.csh xrw2xrw
 cbuild.csh xrw2pdf
 cbuild.csh xrw2points
