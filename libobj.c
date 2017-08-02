@@ -624,13 +624,15 @@ void drawWireObj(OBJ_STRUCT *obj) {
   
   pushVRMLname(obj->label);
   float width = s2qlw();
+  COLOUR mycol;
+  mycol = obj->col;
   for (i = 0; i < obj->nfacets; i++) {
     for (j = 0; j < 3; j++) {
       P[j] = obj->verts[obj->facets[i*3+j]];
     }
-    ns2vthline(P[0], P[1], obj->col, width);
-    ns2vthline(P[1], P[2], obj->col, width);
-    ns2vthline(P[2], P[0], obj->col, width);
+    ns2vthline(P[0], P[1], mycol /*obj->col*/, width);
+    ns2vthline(P[1], P[2], mycol /*obj->col*/, width);
+    ns2vthline(P[2], P[0], mycol /*obj->col*/, width);
   }
 
   pushVRMLname("ANON");
