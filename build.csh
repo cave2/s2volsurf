@@ -30,9 +30,6 @@
 # D.G.Barnes, C.J.Fluke, P.D.Bourke & O.T.Parry, 2006, Publications
 # of the Astronomical Society of Australia, 23(2), 82-93.
 #
-# $Id: build.csh 231 2014-05-13 01:42:38Z barnesd $
-#
-#
 
 if (!(${?S2EXTRAINC})) then
   setenv S2EXTRAINC ""
@@ -54,6 +51,7 @@ cbuild.csh ushortraw2xrw
 cbuild.csh 3dcheckerboard2xrw
 cbuild.csh tgastack2xrw
 cbuild.csh plutodblstack2xrw
+cbuild.csh xrw2tgastack
 cbuild.csh xrw2xrw
 cbuild.csh xrw2pdf
 cbuild.csh xrw2points
