@@ -76,6 +76,7 @@ void deleteXvol(VOL_STRUCT *xv);
 
 VOL_STRUCT *loadUshortRaw(char *ifname, int nx, int ny, int nz);
 VOL_STRUCT *loadTGAstack(char *basename, int startframe, int endframe, int stride);
+VOL_STRUCT *loadPlutoDblStack(char *basename, int startframe, int endframe, int stride, int w, int h);
 VOL_STRUCT *rebinXvol(VOL_STRUCT *ivol, int stride[3]);
 void normaliseXvol(VOL_STRUCT *vol); // normalise in measured min, max
 void rangeNormaliseXvol(VOL_STRUCT *vol, float min, float max); // normalise to provided min,max

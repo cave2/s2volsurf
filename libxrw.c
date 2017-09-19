@@ -861,6 +861,71 @@ VOL_STRUCT *loadTGAstack(char *basename, int startframe, int endframe, int strid
 
 }
 
+ VOL_STRUCT *loadPlutoDblStack(char *basename, int startframe, int endframe, int stride, int w, int h) {
+
+  VOL_STRUCT *vol = (VOL_STRUCT *)malloc(1 * sizeof(VOL_STRUCT));
+  if (!vol) {
+    fprintf(stderr, "Failed to create parsed volume container.\n");
+    return NULL;
+  }
+
+  char fname[255];
+  double *readdbls;
+  int i, j, k;
+
+  sprintf(vol->filename, "from_PlutoDbl_stack_%s", basename);
+  
+  vol->nx = (endframe - startframe + 1) / stride;
+  vol->data = (float ***)malloc(vol->nx * sizeof(float **));
+  if (vol->data == NULL) {
+    fprintf(stderr,"Failed to allocate %ld bytes\n",(long)(vol->nx*sizeof(float **)));
+    exit(-1);
+  }
+
+  FILE *INDBL;
+  readdbls = (double *)malloc(w * h * sizeof(double));
+  for (i = 0; i < (endframe - startframe +1); i+=stride) {
+    sprintf(fname, basename, startframe + i);
+    fprintf(stderr, "reading file %s...\n", fname);
+    INDBL = fopen(fname, "r");
+    if (!INDBL) {
+      fprintf(stderr, "Could not open filename %s in loadPlutoDblStack\n", fname);
+      exit(-1);
+    }
+    if (fread(readdbls, sizeof(double), w * h, INDBL) != w * h) {
+      fprintf(stderr, "Failed to read %d doubles from file in loadPlutoDblStack\n", w * h);
+      exit(-1);
+    }
+    fprintf(stderr, "%lf\n", readdbls[156718]);
+
+    if (i == 0) {
+      vol->ny = w;
+      vol->nz = h;
+      fprintf(stderr, "Slices are %d x %d\n", vol->ny, vol->nz);
+    }
+
+    // copy this frame in to this slice
+    vol->data[i/stride] = (float **)malloc(w * sizeof(float *));
+    for (j = 0; j < w; j++) {
+      vol->data[i/stride][j] = (float *)malloc(h * sizeof(float *));
+#pragma omp parallel for private(k)
+      for (k = 0; k < h; k++) {
+	vol->data[i/stride][j][h-k-1] = readdbls[j + k * w];
+      }
+    }
+    fclose(INDBL);
+  }
+  free(readdbls);
+
+  vol->wdx = vol->wdy = vol->wdz = 1.0;
+  for (i = 0; i < 256; i++) {
+    vol->red[i] = vol->green[i] = vol->blue[i] = (float)i / 255.;
+  }
+
+  return vol;
+}
+
+
 VOL_STRUCT *rebinXvol(VOL_STRUCT *ivol, int stride[3]) {
   // verify loaded data
   if (!ivol || !ivol->data) {
