@@ -81,4 +81,6 @@ setenv S2EXTRAINC "${S2EXTRAINC} -I/usr/local/niftilib/2.0.0/include/nifti -I/op
 setenv S2EXTRALIB "${S2EXTRALIB} -L/usr/local/niftilib/2.0.0/lib -lniftiio -lznz"
 cbuild.csh nifti2xrw
 
+setenv S2EXTRALIB "${S2EXTRALIB} -lcfitsio"
+cbuild.csh fits2xrw
 
