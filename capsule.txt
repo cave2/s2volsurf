@@ -1,0 +1,2 @@
+Courtesy Paul Bourke: http://paulbourke.net/dataformats/obj/minobj.html
+

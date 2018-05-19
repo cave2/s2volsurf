@@ -10,7 +10,8 @@ int main(int argc, char **argv) {
 
   s2opend("/?", argc, argv);
   
-  OBJ_STRUCT *obj = loadObj("MU3248lowres_textured_pshop-resave.obj", "label", 1., 1., 1., 1.);
+  //OBJ_STRUCT *obj = loadObj("MU3248lowres_textured_pshop-resave.obj", "label", 1., 1., 1., 1.);
+  OBJ_STRUCT *obj = loadObj("capsule.obj", "label", 1., 1., 1., 1.);
 
   calcObjMinMaxMean(obj);
 
@@ -37,7 +38,10 @@ int main(int argc, char **argv) {
 #define SC 1.4
   s2swin(SC*obj->minP.x, SC*obj->maxP.x, SC*obj->minP.y, SC*obj->maxP.y, SC*obj->minP.z, SC*obj->maxP.z);
   
-  unsigned int texid = ss2lt("MU3248lowres_texturedImage10000.tga");
+  //unsigned int texid = ss2lt("MU3248lowres_texturedImage10000.tga");
+  unsigned int texid = ss2lt("capsule.tga");
+
+  ss2srm(SHADE_FLAT);
 
   //drawObj(obj);
   drawObjAsTexturedMesh(obj, texid);
