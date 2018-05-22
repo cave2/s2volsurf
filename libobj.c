@@ -565,6 +565,11 @@ void transformObj(OBJ_STRUCT *obj, float *m) {
     out.y = m[4]*in.x + m[5]*in.y + m[6]*in.z + m[7];
     out.z = m[8]*in.x + m[9]*in.y + m[10]*in.z + m[11];
     obj->verts[i] = out;
+    in = obj->norms[i];
+    out.x = m[0]*in.x + m[1]*in.y + m[2]*in.z + m[3];
+    out.y = m[4]*in.x + m[5]*in.y + m[6]*in.z + m[7];
+    out.z = m[8]*in.x + m[9]*in.y + m[10]*in.z + m[11];
+    obj->norms[i] = out;
   }
 
   calcObjMinMaxMean(obj);  
