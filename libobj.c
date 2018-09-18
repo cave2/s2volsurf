@@ -32,44 +32,9 @@
  *
  */
 
-#define OBJ_STRUCT_LABEL_LEN 80
-typedef struct {
-  char label[OBJ_STRUCT_LABEL_LEN+1];
-  COLOUR col;
-  float alpha;
-  int nverts;
-  XYZ *verts;
-  int nfacets;
-  int *facets; // 3 * int per facet = 3 * vertex indices
-  int *facets_tcs; // 3 * int per facet = 3 * vertex texture coordinate indices
-  XYZ minP, maxP; // min,max coordinates
-  XYZ meanP; // mean (~central) coordinate
-  int nnorms;
-  XYZ *norms; // require as many as verts
-  int nvtcs; // vertex texture coordinates
-  XYZ *vtcs; // use only X,Y (as u,v)
-} OBJ_STRUCT;
-
-typedef struct {
-  int nverts;
-  int *vert_indices;
-  float *vert_weights;
-  float minW, maxW;
-} OBJ_WGT_STRUCT;
-
-OBJ_STRUCT *loadObj(char *filename, char *label, float r, float g, float b, float a);
-OBJ_STRUCT *loadObjFromFS(char *filename, char *label, float r, float g, float b, float a);
-OBJ_WGT_STRUCT *loadObjWgtFromFS(char *filename);
-OBJ_STRUCT *loadObjFromSTL(char *filename, char *label, float r, float g, float b, float a);
-void calcObjMinMaxMean(OBJ_STRUCT *obj);
-void translateObj(OBJ_STRUCT *obj, XYZ vec);
-void transformObj(OBJ_STRUCT *obj, float *m); // m[4c,3r] matrix
-void drawObj(OBJ_STRUCT *obj); //, COLOUR c);
-void drawWireObj(OBJ_STRUCT *obj);
-void drawObjWgts(OBJ_STRUCT *obj, OBJ_WGT_STRUCT *wgt, int wgted_vx_only,
-		 int solid_col_idx);
-void saveWgtedObj(OBJ_STRUCT *obj, OBJ_STRUCT *obj_norms, OBJ_WGT_STRUCT *wgt, char *fname);
-
+//#include "s2types.h"
+#include "s2plot.h"
+#include "libobj.h"
 
 OBJ_STRUCT *loadObj(char *filename, char *label, float r, float g, float b, float a) {
   
