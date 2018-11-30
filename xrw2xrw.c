@@ -45,6 +45,7 @@ void usage(char *exename) {
   fprintf(stderr, "usage: %s [options] -f xrwfilename -o xrwfilename\n", exename);
   fprintf(stderr, "-t t1 t2 t3\t\t set edge trim (centred) along each axis (0 0 0) pre-stride\n");
   fprintf(stderr, "-s s1 s2 s3\t\t set data averaging along each axis (1 1 1)\n");
+  fprintf(stderr, "-z         \t\t calculate and export volume derivative\n");
   fprintf(stderr, "-2         \t\t force dimensions to power-of-two\n");
   fprintf(stderr, "-1G        \t\t ensure image has fewer than 1G pixels\n");
 }
@@ -60,6 +61,7 @@ int main(int argc, char *argv[]) {
 
   int trim[3] = {0,0,0};
   int stride[3] = {1,1,1}; //{3,3,1};
+  int doderiv = 0;
   int pow2 = 0;
   int max1g = 0;
 
@@ -92,6 +94,8 @@ int main(int argc, char *argv[]) {
 	fprintf(stderr, "stride must be at least 1 in each direction!\n");
 	exit(-1);
       }
+    } else if (!strcmp(argv[ic], "-z")) {
+      doderiv = 1;
     } else if (!strcmp(argv[ic], "-2")) {
       pow2 = 1;
     } else if (!strcmp(argv[ic], "-1G")) {
@@ -157,6 +161,10 @@ int main(int argc, char *argv[]) {
     vol = vol2;
   }
 
+  if (doderiv) {
+    fprintf(stderr, " * * * DERIVATIVE OF VOLUME * * *\n");
+    derivXvol(vol);
+  }
 
   fprintf(stderr, "converting...\n");
   XRAW_STRUCT *xro = Xvol2Xraw(vol);

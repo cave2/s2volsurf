@@ -39,6 +39,9 @@ void usage(char *exename) {
   fprintf(stderr, "options:\n");
   fprintf(stderr, "-s s1 s2 s3    set data averaging along each axis (1 1 1)\n");
   fprintf(stderr, "-d d1 d2       set data min, max (default 0.0 1.0)\n");
+  fprintf(stderr, "-S sx sy sz    set spatial scaling for each axis\n");
+  fprintf(stderr, "-6             write r g b as well as x y z [NYI]\n");
+  fprintf(stderr, "-c             (S2PLOT) colourmap for -6 option [NYI]\n");
   fprintf(stderr, "-z             calculate and render volume derivative\n");
 }
 
@@ -49,6 +52,7 @@ int main(int argc, char **argv) {
   int haveifname = 0, haveofname = 0;
   float dmin = 0, dmax = 1;
   int stride[] = {1,1,1};
+  float scale[] = {1., 1., 1.};
   int doDeriv = 0;
 
   if (argc < 5) {
@@ -75,6 +79,10 @@ int main(int argc, char **argv) {
     } else if (!strcmp(argv[ic], "-d")) {
       dmin = atof(argv[++ic]);
       dmax = atof(argv[++ic]);
+    } else if (!strcmp(argv[ic], "-S")) {
+      scale[0] = atof(argv[++ic]);
+      scale[1] = atof(argv[++ic]);
+      scale[2] = atof(argv[++ic]);      
     } else if (!strcmp(argv[ic], "-z")) {
       doDeriv = 1;
     }
@@ -119,11 +127,11 @@ int main(int argc, char **argv) {
 	  } else if (dval > 1.0) {
 	    dval = 1.0;
 	  }
-	  fprintf(fout, "%6.4f,%6.4f,%6.4f,%6.4f\n", 
-		  (float)i/(float)(nx-1),
-		  (float)j/(float)(ny-1) * vol->wdy*(float)ny / (vol->wdx*(float)nx),
-		  (float)k/(float)(nz-1) * vol->wdz*(float)nz / (vol->wdx*(float)nx),
-		  dval);
+	  fprintf(fout, "%6.4f %6.4f %6.4f 255 255 255\n", 
+		  (float)i/(float)(nx-1) * scale[0],
+		  (float)j/(float)(ny-1) * scale[1] * vol->wdy*(float)ny / (vol->wdx*(float)nx),
+		  (float)k/(float)(nz-1) * scale[2] * vol->wdz*(float)nz / (vol->wdx*(float)nx));
+	  //dval);
 	}
       }
     }
